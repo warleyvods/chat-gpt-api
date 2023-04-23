@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  
+  chatservice:
+    build: .
+    container_name: chatservice_app
+    volumes:
+      - .:/go/src
+    ports:
+      - "8081:8080"
+      - "50052:50051"
+
   mysql:
     image: mysql:8
     container_name: mysql
@@ -8,7 +18,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: chat
-      MYSQL_USER: root
+      MYSQL_USER: warchat
+      MYSQL_PASSWORD: warchat
     ports:
       - "3306:3306"
     volumes:
