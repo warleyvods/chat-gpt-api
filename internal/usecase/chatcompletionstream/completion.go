@@ -25,7 +25,7 @@ type ChatCompletionConfigInputDTO struct {
 
 type ChatCompletionInputDTO struct {
 	ChatID      string
-	USerID      string
+	UserID      string
 	UserMessage string
 	Config      ChatCompletionConfigInputDTO
 }
@@ -117,7 +117,7 @@ func (uc *ChatCompletionUseCase) Execute(ctx context.Context, input ChatCompleti
 		fullResponse.WriteString(response.Choices[0].Delta.Content)
 		r := ChatCompletionOutputDTO{
 			ChatID:  chat.ID,
-			UserID:  input.USerID,
+			UserID:  input.UserID,
 			Content: fullResponse.String(),
 		}
 		uc.Stream <- r
@@ -140,7 +140,7 @@ func (uc *ChatCompletionUseCase) Execute(ctx context.Context, input ChatCompleti
 
 	return &ChatCompletionOutputDTO{
 		ChatID:  chat.UserID,
-		UserID:  input.USerID,
+		UserID:  input.UserID,
 		Content: fullResponse.String(),
 	}, nil
 }
@@ -161,7 +161,7 @@ func createNewChat(input ChatCompletionInputDTO) (*entity.Chat, error) {
 	if err != nil {
 		return nil, errors.New("error creating initial message: " + err.Error())
 	}
-	chat, err := entity.NewChat(input.USerID, initialMessage, chatConfig)
+	chat, err := entity.NewChat(input.UserID, initialMessage, chatConfig)
 	if err != nil {
 		return nil, errors.New("error creating new chat: " + err.Error())
 	}
